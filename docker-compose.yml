@@ -4,7 +4,7 @@ services:
   webserver:
     build: 
       context: ./bin/webserver
-    container_name: 'png-webserver'
+    container_name: 'webserver'
     restart: 'always'
     ports:
       - "80:80"
@@ -21,7 +21,7 @@ services:
       PHP_IDE_CONFIG: "serverName=DockerServer"
   mysql:
     build: ./bin/mysql
-    container_name: 'png-mysql'
+    container_name: 'mysql'
     restart: 'always'
     ports:
       - "3306:3306"
@@ -35,18 +35,23 @@ services:
       MYSQL_PASSWORD: png
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: 'png-phpmyadmin'
+    container_name: 'phpmyadmin'
     links:
       - mysql
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
+      PMA_USER: png
+      PMA_PASSWORD: png
+      MYSQL_ROOT_PASSWORD: png
+      MYSQL_USER: png
+      MYSQL_PASSWORD: png
     ports:
       - '8080:80'
     volumes: 
       - /sessions
   redis:
-    container_name: 'png-redis'
+    container_name: 'redis'
     image: redis:latest
     ports:
       - "6379:6379"
